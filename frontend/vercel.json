@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://plum-claims-backend.onrender.com/api/:path*"
+      "destination": "https://plum-claims-backend-ndzd.onrender.com/api/:path*"
     }
   ]
 }
