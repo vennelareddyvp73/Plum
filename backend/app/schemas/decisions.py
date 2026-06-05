@@ -28,3 +28,6 @@ class ClaimDecision(BaseModel):
     next_steps: str
     requires_manual_review: bool = False
     manual_review_reasons: List[str] = []
+    # Cashless & network fields
+    cashless_approved: Optional[bool] = None          # True if auto-approved cashless at network hospital
+    network_discount_amount: Optional[float] = None   # Rupee value of the network discount applied

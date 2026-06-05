@@ -309,7 +309,8 @@ TEST_CASES = [
         },
         "expected_decision": "APPROVED",
         "expected_approved": 4080,
-        "note": "Apollo Hospitals = network → 20% discount applied to Consultation Fee, then 10% copay on remaining",
+        "expected_cashless": True,
+        "note": "Apollo Hospitals = network → 20% discount on consultation fee (₹1,500×20%=₹300), then 10% copay on remaining consultation (₹1,200×10%=₹120). Total approved: ₹4,500 - ₹300 - ₹120 = ₹4,080. Cashless auto-approved (≤₹5,000 limit).",
     },
 ]
 
@@ -346,6 +347,10 @@ def run_case(tc: dict, verbose: bool = True) -> dict:
         print(f"  Confidence: {conf:.0%}")
         if rules:
             print(f"  Rules fired: {', '.join(rules)}")
+        if decision.get("cashless_approved") is not None:
+            cashless_str = "✅ Yes" if decision["cashless_approved"] else "❌ No"
+            nd = decision.get("network_discount_amount")
+            print(f"  Cashless:   {cashless_str}" + (f"  (Network discount: ₹{nd:,.0f})" if nd else ""))
         if tc.get("note"):
             print(f"  Note: {tc['note']}")
         if decision.get("fraud_flags"):

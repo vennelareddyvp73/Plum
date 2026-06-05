@@ -160,6 +160,29 @@ def _route(state: PipelineState) -> str:
     return "violation_path" if state["violations"] else "adjudication_path"
 
 
+def _cashless_info(claim: dict, copay_info: dict, approved: float, decision_type: str) -> dict:
+    """
+    Determine cashless eligibility and network discount amount.
+    Cashless is auto-approved when:
+      - Hospital is a network hospital
+      - Decision is APPROVED or PARTIAL
+      - Approved amount is within the instant_approval_limit (₹5,000 per policy)
+    """
+    from app.config import POLICY
+    instant_limit = POLICY.get("cashless_facilities", {}).get("instant_approval_limit", 5000)
+    is_network = claim.get("is_network_hospital", False)
+    nd_amount = copay_info.get("network_discount", 0.0) or 0.0
+    cashless = (
+        is_network
+        and decision_type in ("APPROVED", "PARTIAL")
+        and approved <= instant_limit
+    )
+    return {
+        "cashless_approved":       cashless if is_network else None,
+        "network_discount_amount": round(nd_amount, 2) if nd_amount > 0 else None,
+    }
+
+
 def violation_llm_node(state: PipelineState) -> dict:
     """
     Rule violations found.
@@ -326,14 +349,14 @@ def violation_llm_node(state: PipelineState) -> dict:
     # Final approved amount is capped by the user's claimed amount
     approved = min(eligible_base, total)
 
-    # Subtract category-specific copays/discounts first
+    # Apply copay / discount only to consultation category (preserves separability)
     copay_info = state.get("copay_info") or {}
     if copay_info.get("network_discount"):
         nd = copay_info["network_discount"]
         category_approved["consultation"] = max(category_approved.get("consultation", 0.0) - nd, 0.0)
         deductions.append({
             "type":        "network_discount",
-            "description": "20% network hospital discount",
+            "description": "20% network hospital discount on consultation fee",
             "amount":      nd,
         })
     if copay_info.get("copay"):
@@ -341,13 +364,20 @@ def violation_llm_node(state: PipelineState) -> dict:
         category_approved["consultation"] = max(category_approved.get("consultation", 0.0) - cp, 0.0)
         deductions.append({
             "type":        "copay",
-            "description": "10% co-payment",
+            "description": "10% co-payment on consultation fee",
             "amount":      cp,
         })
-
     if copay_info.get("branded_drug_copay"):
         bdcp = copay_info["branded_drug_copay"]
         category_approved["pharmacy"] = max(category_approved.get("pharmacy", 0.0) - bdcp, 0.0)
+        deductions.append({
+            "type":        "branded_drug_copay",
+            "description": "30% co-pay on branded drugs",
+            "amount":      bdcp,
+        })
+
+    # Recalculate approved from updated category amounts
+    approved = min(sum(category_approved.values()), total)
 
     # Ensure category approved amounts sum up to final approved
     sum_cat_approved = sum(category_approved.values())
@@ -373,6 +403,7 @@ def violation_llm_node(state: PipelineState) -> dict:
             d["amount"] = round(d["amount"] * scale, 2)
         deductions = [d for d in deductions if d["amount"] > 0]
 
+    extra = _cashless_info(claim, state.get("copay_info") or {}, round(max(approved, 0.0), 2), "PARTIAL")
     return {"decision": {
         "claim_id":                  state["claim_id"],
         "decision":                  "PARTIAL",
@@ -390,6 +421,7 @@ def violation_llm_node(state: PipelineState) -> dict:
         "next_steps":                "The approved amount will be reimbursed. Excluded items cannot be claimed under this policy.",
         "requires_manual_review":    False,
         "manual_review_reasons":     [],
+        **extra,
     }}
 
 
@@ -429,25 +461,25 @@ def adjudication_llm_node(state: PipelineState) -> dict:
                     "amount":      cat_amt,
                 })
 
+    # Apply copay / discount only to consultation category (preserves separability)
     if copay.get("network_discount"):
         nd = copay["network_discount"]
         category_approved["consultation"] = max(category_approved.get("consultation", 0.0) - nd, 0.0)
         deductions.append({
             "type":        "network_discount",
-            "description": "20% network hospital discount",
+            "description": "20% network hospital discount on consultation fee",
             "amount":      nd,
         })
     if copay.get("copay"):
         cp = copay["copay"]
         category_approved["consultation"] = max(category_approved.get("consultation", 0.0) - cp, 0.0)
-        deductions.append({"type": "copay", "description": "10% co-payment", "amount": cp})
-
+        deductions.append({"type": "copay", "description": "10% co-payment on consultation fee", "amount": cp})
     if copay.get("branded_drug_copay"):
         bdcp = copay["branded_drug_copay"]
         category_approved["pharmacy"] = max(category_approved.get("pharmacy", 0.0) - bdcp, 0.0)
         deductions.append({"type": "copay_branded_drug", "description": "30% co-pay on branded drugs", "amount": bdcp})
 
-    # Base eligible amount is the sum of category approved amounts after copay/discount
+    # Base eligible amount is the sum of category approved amounts after per-category deductions
     eligible_base = sum(category_approved.values())
 
     # Final approved amount is capped by the user's claimed amount
@@ -497,6 +529,7 @@ def adjudication_llm_node(state: PipelineState) -> dict:
             d["amount"] = round(d["amount"] * scale, 2)
         deductions = [d for d in deductions if d["amount"] > 0]
 
+    extra = _cashless_info(claim, copay, round(max(approved, 0), 2), decision_type)
     return {"decision": {
         "claim_id":                  state["claim_id"],
         "decision":                  decision_type,
@@ -514,6 +547,7 @@ def adjudication_llm_node(state: PipelineState) -> dict:
         "next_steps":                llm.get("next_steps", ""),
         "requires_manual_review":    llm.get("requires_manual_review", False),
         "manual_review_reasons":     llm.get("manual_review_reasons", []),
+        **extra,
     }}
 
 

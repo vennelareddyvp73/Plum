@@ -322,7 +322,10 @@ def run_rules(
                      f"The claim is flagged for manual review under suspicion of fraud.")
                 break
 
-    # --- Copay / discount (not rejections) ---
+    # --- Copay / discount (consultation fees only — preserves category separability) ---
+    # Network discount (20%) applies to consultation fee only.
+    # Then 10% co-payment on the remaining consultation amount.
+    # Branded drug copay (30%) applies only to branded pharmacy items.
     consultation_amt = float(amounts.get("consultation", 0.0))
     if consultation_amt > 0:
         is_net = claim.get("is_network_hospital", False)
