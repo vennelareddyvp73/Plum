@@ -217,3 +217,14 @@ __marimo__/
 # Streamlit
 .streamlit/secrets.toml
 uploads/
+
+# Local Node.js binary folder
+node-v20.18.1-win-x64/
+
+# Node modules and build files
+node_modules/
+frontend/node_modules/
+dist/
+frontend/dist/
+backend/static/assets/
+backend/static/index.html
