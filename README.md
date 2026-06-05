@@ -4,6 +4,13 @@ An AI-powered full-stack application that automates the adjudication of Outpatie
 
 ---
 
+## Links
+
+- **Live Demo:** [https://plum-blue-mu.vercel.app/](https://plum-blue-mu.vercel.app/)
+- **Source Code:** [https://drive.google.com/drive/folders/1s9pmJBPM4u7RHA9gXBXbEHFuUfSqk_49](https://drive.google.com/drive/folders/1s9pmJBPM4u7RHA9gXBXbEHFuUfSqk_49)
+- **Demo Video:** [https://www.youtube.com/watch?v=bK26dK7RIDM](https://www.youtube.com/watch?v=bK26dK7RIDM)
+
+
 ## Table of Contents
 
 1. [Problem Statement](#1-problem-statement)
