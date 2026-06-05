@@ -28,7 +28,7 @@ TEST_CASES = [
                 Reg. No: KA/45678/2015
                 Apollo Clinic, Bangalore
                 Date: 01/11/2024
-                Patient: Rajesh Kumar, Age: 35, Male
+                Patient: Zephyr Thorne, Age: 35, Male
                 C/O: Fever, body ache
                 Diagnosis: Viral Fever
                 Rx: Tab Paracetamol 650mg 1-0-1 x 5 days
@@ -40,7 +40,7 @@ TEST_CASES = [
             "medical_bill_text": """
                 Apollo Clinic | 12 MG Road Bangalore | GST: 29ABCDE1234F1Z5
                 Bill No: BL-TC001  Date: 01/11/2024
-                Patient: Rajesh Kumar
+                Patient: Zephyr Thorne
                 Consultation Fee       1000
                 CBC Blood Test          300
                 Dengue NS1 Test         200
@@ -63,7 +63,7 @@ TEST_CASES = [
                 Reg. No: MH/23456/2018
                 City Dental Clinic, Mumbai
                 Date: 15/10/2024
-                Patient: Priya Singh, Age: 30, Female
+                Patient: Nova Vance, Age: 30, Female
                 Diagnosis: Tooth decay requiring root canal
                 Treatment: Root canal treatment, Teeth whitening
                 [Stamp] [Signature]
@@ -71,7 +71,7 @@ TEST_CASES = [
             "medical_bill_text": """
                 City Dental Clinic | Mumbai
                 Bill No: BL-TC002  Date: 15/10/2024
-                Patient: Priya Singh
+                Patient: Nova Vance
                 Root canal treatment    8000
                 Teeth whitening         4000
                 Total: 12000
@@ -93,7 +93,7 @@ TEST_CASES = [
                 Reg. No: DL/34567/2016
                 Delhi Medical Centre
                 Date: 20/10/2024
-                Patient: Amit Verma, Age: 40, Male
+                Patient: Orion Blackwood, Age: 40, Male
                 Diagnosis: Gastroenteritis
                 Rx: Tab Antibiotics 500mg, Probiotics
                 [Stamp] [Signature]
@@ -101,7 +101,7 @@ TEST_CASES = [
             "medical_bill_text": """
                 Delhi Medical Centre
                 Bill No: BL-TC003  Date: 20/10/2024
-                Patient: Amit Verma
+                Patient: Orion Blackwood
                 Consultation Fee    2000
                 Medicines           5500
                 Total: 7500  Cash
@@ -121,7 +121,7 @@ TEST_CASES = [
             "medical_bill_text": """
                 HealthCare Clinic, Hyderabad
                 Bill No: BL-TC004  Date: 25/10/2024
-                Patient: Sneha Reddy
+                Patient: Lyra Sterling
                 Consultation Fee    1500
                 Medicines            500
                 Total: 2000  Cash
@@ -143,7 +143,7 @@ TEST_CASES = [
                 Reg. No: GJ/56789/2014
                 Ahmedabad Diabetes Clinic
                 Date: 15/10/2024
-                Patient: Vikram Joshi, Age: 45, Male
+                Patient: Atlas Hayes, Age: 45, Male
                 Diagnosis: Type 2 Diabetes
                 Rx: Metformin 500mg 1-0-1, Glimepiride 2mg
                 [Stamp] [Signature]
@@ -151,7 +151,7 @@ TEST_CASES = [
             "medical_bill_text": """
                 Ahmedabad Diabetes Clinic
                 Bill No: BL-TC005  Date: 15/10/2024
-                Patient: Vikram Joshi
+                Patient: Atlas Hayes
                 Consultation Fee    1000
                 Medicines           2000
                 Total: 3000  Cash
@@ -173,7 +173,7 @@ TEST_CASES = [
                 Reg. No: AYUR/KL/2345/2019
                 Ayurvedic Wellness Centre, Kochi
                 Date: 28/10/2024
-                Patient: Kavita Nair, Age: 38, Female
+                Patient: Freya Lindqvist, Age: 38, Female
                 Diagnosis: Chronic joint pain
                 Treatment: Panchakarma therapy
                 [Stamp] [Signature]
@@ -181,7 +181,7 @@ TEST_CASES = [
             "medical_bill_text": """
                 Ayurvedic Wellness Centre, Kochi
                 Bill No: BL-TC006  Date: 28/10/2024
-                Patient: Kavita Nair
+                Patient: Freya Lindqvist
                 Consultation Fee    1000
                 Panchakarma therapy 3000
                 Total: 4000  Cash
@@ -203,7 +203,7 @@ TEST_CASES = [
                 Reg. No: AP/67890/2017
                 Neurology Clinic, Hyderabad
                 Date: 02/11/2024
-                Patient: Suresh Patil, Age: 50, Male
+                Patient: Cassian Mercer, Age: 50, Male
                 Diagnosis: Suspected lumbar disc herniation
                 Investigations: MRI Lumbar Spine
                 [Stamp] [Signature]
@@ -211,7 +211,7 @@ TEST_CASES = [
             "medical_bill_text": """
                 Scan Centre, Hyderabad
                 Bill No: BL-TC007  Date: 02/11/2024
-                Patient: Suresh Patil
+                Patient: Cassian Mercer
                 MRI Lumbar Spine    15000
                 Total: 15000  Card
                 [Stamp]
@@ -232,7 +232,7 @@ TEST_CASES = [
                 Reg. No: UP/45678/2016
                 Lucknow Neurology Centre
                 Date: 30/10/2024
-                Patient: Ravi Menon, Age: 35, Male
+                Patient: Aria Solis, Age: 35, Male
                 Diagnosis: Migraine
                 Rx: Sumatriptan 50mg, Propranolol 40mg
                 [Stamp] [Signature]
@@ -240,7 +240,7 @@ TEST_CASES = [
             "medical_bill_text": """
                 Lucknow Neurology Centre
                 Bill No: BL-TC008  Date: 30/10/2024
-                Patient: Ravi Menon
+                Patient: Aria Solis
                 Consultation Fee    2000
                 Medicines           2800
                 Total: 4800  Cash
@@ -262,7 +262,7 @@ TEST_CASES = [
                 Reg. No: WB/34567/2015
                 Weight Management Clinic, Kolkata
                 Date: 18/10/2024
-                Patient: Anita Desai, Age: 42, Female
+                Patient: Juno Devereux, Age: 42, Female
                 Diagnosis: Obesity, BMI 35 - weight loss treatment
                 Treatment: Bariatric consultation and diet plan
                 [Stamp] [Signature]
@@ -270,7 +270,7 @@ TEST_CASES = [
             "medical_bill_text": """
                 Weight Management Clinic, Kolkata
                 Bill No: BL-TC009  Date: 18/10/2024
-                Patient: Anita Desai
+                Patient: Juno Devereux
                 Consultation Fee    3000
                 Diet plan           5000
                 Total: 8000  Card
@@ -292,7 +292,7 @@ TEST_CASES = [
                 Reg. No: TN/56789/2013
                 Apollo Hospitals, Chennai
                 Date: 03/11/2024
-                Patient: Deepak Shah, Age: 32, Male
+                Patient: Silas Vance, Age: 32, Male
                 Diagnosis: Acute bronchitis
                 Rx: Antibiotics 500mg, Bronchodilators
                 [Stamp] [Signature]
@@ -300,7 +300,7 @@ TEST_CASES = [
             "medical_bill_text": """
                 Apollo Hospitals | Anna Salai, Chennai | GST: 33ABCDE1234F1Z5
                 Bill No: BL-TC010  Date: 03/11/2024
-                Patient: Deepak Shah
+                Patient: Silas Vance
                 Consultation Fee    1500
                 Medicines           3000
                 Total: 4500  UPI
